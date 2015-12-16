@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 
 var clivas = require('clivas');
-var keypress = require('keypress');
+
+var five = require("johnny-five");
 
 var WIDTH = 15;
 var HEIGHT = 20;
@@ -295,40 +296,63 @@ setInterval(function() {
 	speed = Math.max(speed, 50);
 }, 10000);
 
-setTimeout(loop, speed);
-
 selectFigure();
 addFigureMutation();
 draw();
 
-keypress(process.stdin);
+var arduinoBoard = new five.Board({debug: false, repl: false});
 
-process.stdin.on('keypress', function(ch, key) {
-	if (key.name === 'c' && key.ctrl) return process.exit(0);
-	if (key.name === 'right' || key.name === 'l') {
-		moveFigure(1, 0);
-	}
-	if (key.name === 'left' || key.name === 'h') {
-		moveFigure(-1, 0);
-	}
-	if (key.name === 'down' || key.name === 'j') {
-		if (moveFigure(0, 1)) {
-			score++;
-		}
-	}
-	if (key.name === 'up' || key.name === 'k') {
-		rotateFigure(1);
-	}
-	if (key.name === 'space' || (key.name === 'g' && key.shift)) {
-		while (moveFigure(0, 1)) {
-			score++;
-		}
-	}
+arduinoBoard.on("ready", function() {
+
+	setTimeout(loop, speed);
+
+  // Create a new `joystick` hardware instance.
+  var joystick = new five.Joystick({
+    //   [ x, y ]
+    pins: ["A0", "A1"]
+  });
+
+  // Only accept left and right after X has been reset (e.g. 0)
+  var xReset = true
+
+  // Only accept up and down after Y has been reset (e.g. 0)
+  var yReset = true
+
+  joystick.on("change", function() {
+
+  	if (xReset) {
+	  	if (this.x < -0.5) {
+	  		// Left
+	  		xReset = false
+	  		moveFigure(-1, 0);
+	  	} else if (this.x > 0.5) {
+	  		// Right
+	  		xReset = false
+	  		moveFigure(1, 0);
+	  	}
+  	}
+  	if (this.x === 0) {
+  		xReset = true
+  	}
+
+  	if (yReset) {
+	  	if (this.y < -0.5) {
+	  		// Up
+	  		yReset = false
+	  		rotateFigure(1);
+	  	} else if (this.y > 0.5) {
+	  		// Down
+	  		yReset = false
+	  		if (moveFigure(0, 1)) {
+					score++;
+				}
+	  	}
+  	}
+  	if (this.y === 0) {
+  		yReset = true
+  	}
+
+  });
 });
-process.stdin.resume();
 
-try {
-	process.stdin.setRawMode(true);
-} catch (err) {
-	require('tty').setRawMode(true);
-}
+

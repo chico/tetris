@@ -1,14 +1,18 @@
 {
-	"name":"tetris",
-	"version":"0.1.6",
-	"description":"play tetris in your terminal",
-	"repository":"git@github.com:mafintosh/tetris.git",
-	"keywords":["tetris","terminal","cli"],
-	"bin":{
-		"tetris":"./index.js"
-	},
-	"dependencies":{
-		"clivas":"0.1.x",
-		"keypress":"0.1.x"
-	}
+  "name": "tetris",
+  "version": "0.1.6",
+  "description": "play tetris in your terminal",
+  "repository": "git@github.com:mafintosh/tetris.git",
+  "keywords": [
+    "tetris",
+    "terminal",
+    "cli"
+  ],
+  "bin": {
+    "tetris": "./index.js"
+  },
+  "dependencies": {
+    "clivas": "0.1.x",
+    "johnny-five": "^0.9.16"
+  }
 }
