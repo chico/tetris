@@ -9,7 +9,7 @@
 ## Get code
 
 * ```git clone git@github.com:chico/tetris.git```
-* ```cd tetris
+* ```cd tetris```
 
 ## Install and run
 
