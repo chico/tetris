@@ -1,15 +1,22 @@
 # tetris
 
-Play tetris in your terminal - in color
+## Setup arduino
 
-	npm install -g tetris
+* Connect joystick to the Arduino
 
-## How do I play?
+![arduino](https://brainy-bits.com/wp-content/uploads/2014/12/schematic-joystick1.png)
+
+## Get code
+
+* ```git clone git@github.com:chico/tetris.git```
+* ```cd tetris
+
+## Install and run
+
+* ```npm install```
+* ```node index```
+
+## Play!
 
 ![tetris](https://raw.github.com/mafintosh/tetris/master/tetris.png)
 
-Simply open a terminal and run `tetris`
-
-	$ tetris
-
-It even works over ssh so you can tetris while you ops
